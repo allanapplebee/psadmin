@@ -1,13 +1,13 @@
 "use strict";
 
-var gulp = require('gulp'),
-    connect = require('gulp-connect'),
-    open = require('gulp-open'),
-    browserify = require('browserify'),
-    reactify = require('reactify'),
-    source = require('vinyl-source-stream'),
-    eslint = require('gulp-eslint'),
-    concat = require('gulp-concat');
+var gulp = require('gulp');
+var connect = require('gulp-connect'); //Runs a local dev server
+var open = require('gulp-open'); //Open a URL in a web browser
+var browserify = require('browserify'); // Bundles JS
+var reactify = require('reactify');  // Transforms React JSX to JS
+var source = require('vinyl-source-stream'); // Use conventional text streams with Gulp
+var concat = require('gulp-concat'); //Concatenates files
+var lint = require('gulp-eslint'); //Lint JS files, including JSX
 
 var config = {
   port: 9005,
@@ -16,16 +16,15 @@ var config = {
     html: './src/*.html',
     js: './src/**/*.js',
     css: [
-      'node_modules/bootstrap/dist/css/bootstrap.min.css',
-      'node_modules/bootstrap/dist/css/bootstrap-theme.min.css'
-    ],
+          'node_modules/bootstrap/dist/css/bootstrap.min.css',
+          'node_modules/bootstrap/dist/css/bootstrap-theme.min.css'
+      ],
     dist: './dist',
     mainJs: './src/main.js'
   }
 }
 
-//start local dev server
-
+//Start a local development server
 gulp.task('connect', function() {
   connect.server({
     root: ['dist'],
@@ -37,7 +36,7 @@ gulp.task('connect', function() {
 
 gulp.task('open', ['connect'], function() {
   gulp.src('dist/index.html')
-    .pipe(open({ uri: config.devBaseUrl + ':' + config.port + '/' }));
+    .pipe(open({ uri: config.devBaseUrl + ':' + config.port + '/'}));
 });
 
 gulp.task('html', function() {
@@ -58,14 +57,14 @@ gulp.task('js', function() {
 
 gulp.task('css', function() {
   gulp.src(config.paths.css)
-  .pipe(concat('bundle.css'))
-  .pipe(gulp.dest(config.paths.dist + '/css'));
-})
+    .pipe(concat('bundle.css'))
+    .pipe(gulp.dest(config.paths.dist + '/css'));
+});
 
 gulp.task('lint', function() {
   return gulp.src(config.paths.js)
-    .pipe(eslint({ config: 'eslint.config.json' }))
-    .pipe(eslint.format());
+    .pipe(lint({config: 'eslint.config.json'}))
+    .pipe(lint.format());
 });
 
 gulp.task('watch', function() {
