@@ -4,11 +4,11 @@ var React = require('react');
 
 var About = React.createClass({
   render: function() {
-    return(
+    return (
       <div>
         <h1>About</h1>
         <p>
-          This applicaitons uses the following technologies:
+          This applicaiton uses the following technologies:
           <ul>
             <li>React</li>
             <li>React Router</li>

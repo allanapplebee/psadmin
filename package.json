@@ -17,7 +17,7 @@
   },
   "homepage": "https://github.com/allanapplebee/psadmin#readme",
   "dependencies": {
-    "bootstrap": "^4.1.1",
+    "bootstrap": "^3.3.5",
     "browserify": "^16.2.2",
     "flux": "^2.0.3",
     "gulp": "^3.9.1",
