@@ -15,7 +15,7 @@ var AuthorStore = assign({}, EventEmitter.prototype, {
   },
 
   removeChangeListner: function(callback) {
-    this.removeListner(CHANGE_EVENT, callback);
+    this.removeListener(CHANGE_EVENT, callback);
   },
 
   emitChange: function() {
@@ -33,9 +33,27 @@ var AuthorStore = assign({}, EventEmitter.prototype, {
 
 Dispatcher.register(function(action) {
   switch(action.actionType) {
+    case ActionTypes.INITIALISE:
+      _authors = action.initialData.authors;
+      AuthorStore.emitChange();
+      break;
     case ActionTypes.CREATE_AUTHOR:
       _authors.push(action.author);
       AuthorStore.emitChange();
+      break;
+    case ActionTypes.UPDATE_AUTHOR:
+      var exisitingAuthor = _.find(_authors, {id: action.author.id});
+      var exisitingAuthorIndex = _.indexOf(_authors, exisitingAuthor);
+      _authors.splice(exisitingAuthorIndex, 1, action.author);
+      AuthorStore.emitChange();
+      break;
+    case ActionTypes.DELETE_AUTHOR:
+      _.remove(_authors, function(author) {
+        return action.id === author.id;
+      });
+      AuthorStore.emitChange();
+      break;
+    default:
   }
 });
 
